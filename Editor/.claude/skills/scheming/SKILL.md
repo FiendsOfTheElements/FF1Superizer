@@ -1,7 +1,7 @@
 ---
 name: scheming
-description: Planning-mode skill. Climb concerns broadest-first down a decision ladder — the big, uncertain stuff before the minutiae. Use during the planning phase of ANY task, before you present a plan or enter plan mode: whenever you're deciding what to clarify, which questions to ask, or how to scope the work. Consult it before you ask the user anything while planning — even a single question.
-author: Polatrite
+description: "Planning-mode skill. Climb concerns broadest-first down a decision ladder — the big, uncertain stuff before the minutiae. Use during the planning phase of ANY task, before you present a plan or enter plan mode: whenever you're deciding what to clarify, which questions to ask, or how to scope the work. Consult it before you ask the user anything while planning — even a single question."
+author: "Polatrite"
 version: 4
 ---
 

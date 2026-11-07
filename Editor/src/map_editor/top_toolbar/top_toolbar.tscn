@@ -1,0 +1,124 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/icons/new.svg" id="1_new"]
+[ext_resource type="Texture2D" path="res://assets/icons/open.svg" id="2_open"]
+[ext_resource type="Texture2D" path="res://assets/icons/save.svg" id="3_save"]
+[ext_resource type="Texture2D" path="res://assets/icons/undo.svg" id="4_undo"]
+[ext_resource type="Texture2D" path="res://assets/icons/redo.svg" id="5_redo"]
+[ext_resource type="Texture2D" path="res://assets/icons/select.svg" id="6_select"]
+[ext_resource type="Texture2D" path="res://assets/icons/pencil.svg" id="7_pencil"]
+[ext_resource type="Texture2D" path="res://assets/icons/line.svg" id="8_line"]
+[ext_resource type="Texture2D" path="res://assets/icons/rectangle.svg" id="9_rectangle"]
+[ext_resource type="Texture2D" path="res://assets/icons/ellipse.svg" id="10_ellipse"]
+[ext_resource type="Texture2D" path="res://assets/icons/fill.svg" id="11_fill"]
+[ext_resource type="PackedScene" path="res://src/map_editor/top_toolbar/tool_options_bar.tscn" id="12_options"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_tools"]
+
+[node name="TopToolbar" type="PanelContainer"]
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "New"
+icon = ExtResource("1_new")
+flat = true
+
+[node name="OpenButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Open"
+icon = ExtResource("2_open")
+flat = true
+
+[node name="SaveButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Save"
+icon = ExtResource("3_save")
+flat = true
+
+[node name="FileSeparator" type="VSeparator" parent="HBox"]
+layout_mode = 2
+
+[node name="UndoButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Undo"
+icon = ExtResource("4_undo")
+flat = true
+
+[node name="RedoButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Redo"
+icon = ExtResource("5_redo")
+flat = true
+
+[node name="HistorySeparator" type="VSeparator" parent="HBox"]
+layout_mode = 2
+
+[node name="SelectButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Select"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("6_select")
+flat = true
+
+[node name="PencilButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Pencil"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("7_pencil")
+flat = true
+
+[node name="LineButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Line"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("8_line")
+flat = true
+
+[node name="RectangleButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Rectangle"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("9_rectangle")
+flat = true
+
+[node name="EllipseButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Ellipse"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("10_ellipse")
+flat = true
+
+[node name="FillButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Flood Fill"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tools")
+icon = ExtResource("11_fill")
+flat = true
+
+[node name="ToolsSeparator" type="VSeparator" parent="HBox"]
+layout_mode = 2
+
+[node name="ToolOptionsBar" parent="HBox" instance=ExtResource("12_options")]
+unique_name_in_owner = true
+layout_mode = 2

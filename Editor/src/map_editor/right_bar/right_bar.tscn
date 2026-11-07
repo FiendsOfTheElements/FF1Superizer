@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/map_editor/right_bar/minimap_panel.tscn" id="1_minimap"]
+[ext_resource type="PackedScene" path="res://src/map_editor/right_bar/teleports_panel.tscn" id="2_teleports"]
+[ext_resource type="PackedScene" path="res://src/map_editor/right_bar/history_panel.tscn" id="3_history"]
+
+[node name="RightBar" type="VSplitContainer"]
+custom_minimum_size = Vector2(280, 0)
+
+[node name="MinimapPanel" parent="." instance=ExtResource("1_minimap")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TeleportsPanel" parent="." instance=ExtResource("2_teleports")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HistoryPanel" parent="." instance=ExtResource("3_history")]
+unique_name_in_owner = true
+layout_mode = 2

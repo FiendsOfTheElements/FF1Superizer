@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[node name="StatusBar" type="PanelContainer"]
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CursorLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "X: —  Y: —"
+
+[node name="Spacer" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MapNameLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Overworld"
+
+[node name="DirtyLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Saved"

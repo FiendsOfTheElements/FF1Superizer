@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/map_editor/sidebar_panel.tscn" id="1_base"]
+
+[node name="HistoryPanel" instance=ExtResource("1_base")]
+
+[node name="Title" parent="VBox" index="0"]
+text = "History"

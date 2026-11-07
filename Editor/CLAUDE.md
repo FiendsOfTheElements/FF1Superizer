@@ -4,7 +4,9 @@
 - All other docs go somewhere in `/docs` with the same naming style
 
 # Godot
-We are using Godot 4.7.2 for this project.
+We are using Godot 4.7.2 for this project. The executable is `E:\Godot\Godot_v4.7.2-stable_mono_win64.exe`
+(from Bash: `/e/Godot/Godot_v4.7.2-stable_mono_win64.exe`). For headless runs whose output you need to
+read, use the `_console.exe` beside it.
 
 **Non-Nodes don't hold Nodes.** `RefCounted`, `Resource` and autoload classes never keep a Node
 (or Node-typed `Variant`) in a member; using one as a parameter within a call is fine. Anything

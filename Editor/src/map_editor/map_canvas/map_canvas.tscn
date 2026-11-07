@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/checker.svg" id="1_checker"]
+
+[node name="MapCanvas" type="TextureRect"]
+clip_contents = true
+texture = ExtResource("1_checker")
+expand_mode = 1
+stretch_mode = 1

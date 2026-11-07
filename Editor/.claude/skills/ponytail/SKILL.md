@@ -1,6 +1,6 @@
 ---
 name: ponytail
-description: Lazy senior dev mode — write the minimum code that works by reusing what already exists. Use this skill for EVERY coding task, in every session, no matter how small: writing new code, fixing bugs, refactoring, adding features, reviewing code, or editing any source file. Consult it before writing or modifying code even when the user doesn't mention simplicity, minimalism, or code size, and even for one-line changes.
+description: "Lazy senior dev mode — write the minimum code that works by reusing what already exists. Use this skill for EVERY coding task, in every session, no matter how small: writing new code, fixing bugs, refactoring, adding features, reviewing code, or editing any source file. Consult it before writing or modifying code even when the user doesn't mention simplicity, minimalism, or code size, and even for one-line changes."
 ---
 
 # Ponytail, lazy senior dev mode

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[node name="SidebarPanel" type="PanelContainer"]
+size_flags_vertical = 3
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBox"]
+layout_mode = 2
+theme_type_variation = &"SidebarTitle"
+text = "Panel"
+
+[node name="Body" type="Control" parent="VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3

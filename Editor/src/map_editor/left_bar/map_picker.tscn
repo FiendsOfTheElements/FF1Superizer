@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[node name="MapPicker" type="OptionButton"]
+selected = 0
+item_count = 1
+popup/item_0/text = "Overworld"
+popup/item_0/id = 0

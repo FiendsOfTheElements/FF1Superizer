@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/map_editor/left_bar/map_picker.tscn" id="1_picker"]
+[ext_resource type="PackedScene" path="res://src/map_editor/left_bar/palette_panel.tscn" id="2_palette"]
+[ext_resource type="PackedScene" path="res://src/map_editor/left_bar/tile_properties_panel.tscn" id="3_props"]
+
+[node name="LeftBar" type="VBoxContainer"]
+custom_minimum_size = Vector2(280, 0)
+
+[node name="MapPicker" parent="." instance=ExtResource("1_picker")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PanelSplit" type="VSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PalettePanel" parent="PanelSplit" instance=ExtResource("2_palette")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TilePropertiesPanel" parent="PanelSplit" instance=ExtResource("3_props")]
+unique_name_in_owner = true
+layout_mode = 2

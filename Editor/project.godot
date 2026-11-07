@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="FF1Supereditor"
-run/main_scene="uid://bmyiqgs22dhd7"
+run/main_scene="res://src/map_editor/map_editor.tscn"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
 
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/size/viewport_width=1600
+window/size/viewport_height=900
 
 [dotnet]
 

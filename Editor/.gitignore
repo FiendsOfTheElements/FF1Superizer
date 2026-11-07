@@ -16,6 +16,7 @@ exports/
 .claude/cache/
 .claude/telemetry/
 .claude/downloads/
+.claude/scratchpad/
 
 # Python nonsense
 __pycache__/
