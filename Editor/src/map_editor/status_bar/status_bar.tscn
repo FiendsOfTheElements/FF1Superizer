@@ -1,6 +1,9 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://src/map_editor/status_bar/status_bar.gd" id="1_script"]
+
 [node name="StatusBar" type="PanelContainer"]
+script = ExtResource("1_script")
 
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -10,6 +13,11 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 text = "X: —  Y: —"
+
+[node name="ProjectLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No project"
 
 [node name="Spacer" type="Control" parent="HBox"]
 layout_mode = 2

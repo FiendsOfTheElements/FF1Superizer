@@ -12,10 +12,12 @@
 [ext_resource type="Texture2D" path="res://assets/icons/ellipse.svg" id="10_ellipse"]
 [ext_resource type="Texture2D" path="res://assets/icons/fill.svg" id="11_fill"]
 [ext_resource type="PackedScene" path="res://src/map_editor/top_toolbar/tool_options_bar.tscn" id="12_options"]
+[ext_resource type="Script" path="res://src/map_editor/top_toolbar/top_toolbar.gd" id="13_script"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tools"]
 
 [node name="TopToolbar" type="PanelContainer"]
+script = ExtResource("13_script")
 
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -122,3 +124,5 @@ layout_mode = 2
 [node name="ToolOptionsBar" parent="HBox" instance=ExtResource("12_options")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[connection signal="pressed" from="HBox/OpenButton" to="." method="_on_open_button_pressed"]

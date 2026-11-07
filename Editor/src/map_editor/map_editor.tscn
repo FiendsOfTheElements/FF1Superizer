@@ -1,14 +1,14 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cg3l82mnyqkkf"]
 
-[ext_resource type="Script" path="res://src/map_editor/map_editor.gd" id="1_script"]
-[ext_resource type="Theme" path="res://src/map_editor/map_editor_theme.tres" id="2_theme"]
+[ext_resource type="Script" uid="uid://cbwhrdhxcl2fv" path="res://src/map_editor/map_editor.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://dubc5q22pgdwv" path="res://src/map_editor/map_editor_theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" path="res://src/map_editor/top_toolbar/top_toolbar.tscn" id="3_toolbar"]
 [ext_resource type="PackedScene" path="res://src/map_editor/left_bar/left_bar.tscn" id="4_left"]
 [ext_resource type="PackedScene" path="res://src/map_editor/map_canvas/map_canvas.tscn" id="5_canvas"]
 [ext_resource type="PackedScene" path="res://src/map_editor/right_bar/right_bar.tscn" id="6_right"]
 [ext_resource type="PackedScene" path="res://src/map_editor/status_bar/status_bar.tscn" id="7_status"]
 
-[node name="MapEditor" type="Panel"]
+[node name="MapEditor" type="Panel" unique_id=2090373411]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,7 +17,7 @@ grow_vertical = 2
 theme = ExtResource("2_theme")
 script = ExtResource("1_script")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="." unique_id=928798820]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,27 +25,43 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopToolbar" parent="VBox" instance=ExtResource("3_toolbar")]
+[node name="TopToolbar" parent="VBox" unique_id=1711471809 instance=ExtResource("3_toolbar")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MainSplit" type="HSplitContainer" parent="VBox"]
+[node name="MainSplit" type="HSplitContainer" parent="VBox" unique_id=1266611267]
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(0, 0)
 
-[node name="LeftBar" parent="VBox/MainSplit" instance=ExtResource("4_left")]
+[node name="LeftBar" parent="VBox/MainSplit" unique_id=1350932107 instance=ExtResource("4_left")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MapCanvas" parent="VBox/MainSplit" instance=ExtResource("5_canvas")]
+[node name="MapCanvas" parent="VBox/MainSplit" unique_id=487430121 instance=ExtResource("5_canvas")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RightBar" parent="VBox/MainSplit" instance=ExtResource("6_right")]
+[node name="RightBar" parent="VBox/MainSplit" unique_id=1969162585 instance=ExtResource("6_right")]
+unique_name_in_owner = true
+layout_mode = 2
+split_offsets = PackedInt32Array(0, 0)
+
+[node name="StatusBar" parent="VBox" unique_id=371110878 instance=ExtResource("7_status")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="StatusBar" parent="VBox" instance=ExtResource("7_status")]
+[node name="OpenProjectDialog" type="FileDialog" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
+title = "Open Project"
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[node name="LoadErrorDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Couldn't Open Project"
+
+[connection signal="open_requested" from="VBox/TopToolbar" to="." method="_on_open_requested"]
+[connection signal="dir_selected" from="OpenProjectDialog" to="." method="_on_project_dir_selected"]
