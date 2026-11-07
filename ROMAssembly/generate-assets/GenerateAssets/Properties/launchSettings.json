@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GenerateAssets": {
+      "commandName": "Project",
+      "workingDirectory": "../.."
+    }
+  }
+}
