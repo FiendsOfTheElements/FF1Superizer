@@ -24,6 +24,10 @@ window/size/viewport_height=900
 
 project/assembly_name="FF1Supereditor"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
