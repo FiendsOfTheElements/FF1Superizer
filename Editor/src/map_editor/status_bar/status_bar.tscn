@@ -14,6 +14,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "X: —  Y: —"
 
+[node name="ZoomLabel" type="Label" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100%"
+
 [node name="ProjectLabel" type="Label" parent="HBox"]
 unique_name_in_owner = true
 layout_mode = 2
