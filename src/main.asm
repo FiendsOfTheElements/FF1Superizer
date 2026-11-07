@@ -37,6 +37,7 @@
 .import GetJoypadInputs
 
 .import LoadTitleScreenAndWaitForInput
+.import DoFileSelect
 .import DoCharacterSelect
 
 .import LoadOverworld
@@ -73,7 +74,7 @@
 
 	jsr InitializeOam
 	jsr CopyOamMirrorToOAM
-	jsr DoCharacterSelect
+	jsr DoFileSelect
 
 	jsr InitializeOam
 	jsr LoadOverworld

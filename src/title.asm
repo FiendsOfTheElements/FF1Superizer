@@ -9,6 +9,7 @@
 .include "game-state.inc"
 
 .export LoadTitleScreenAndWaitForInput
+.export DoFileSelect
 .export DoCharacterSelect
 
 .import GetJoypadInputs
@@ -36,7 +37,11 @@ BattleSpritePalettes:  .incbin "graphics/battle-sprite-palettes.pal"
 
 FontPalette:
 	COLOR  0,  0,  0 ; normally 31/0/31, but this will be the actual background
-	COLOR  0,  0, 31
+	COLOR  0,  0, 31 ; blue background
+	COLOR 31, 31, 31
+	COLOR 16, 16, 16
+	COLOR  0,  0,  0 ; normally 31/0/31, but this will be the actual background
+	COLOR  0,  0,  0 ; black background
 	COLOR 31, 31, 31
 	COLOR 16, 16, 16
 
@@ -157,11 +162,18 @@ FontPalette:
 	rts
 .endproc
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Party Selection Screen ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Game Menu and Party Selection ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 .feature string_escapes
+VersionString:     .asciiz "FFS pre-alpha 5A5A5A5A"
+
+NewGameString:     .asciiz "New Game"
+ContinueString:    .asciiz "Continue"
+CopyString:        .asciiz "Copy"
+EraseString:       .asciiz "Erase"
+
 PartySelectString: .asciiz " PARTY  SELECT "
 StatusString:      .asciiz " STATUS "
 NameEntryString:   .asciiz " NAME  ENTRY "
@@ -194,8 +206,56 @@ PartyPosition   = $1a
 XPosition       = $19
 YPosition       = $18
 InputPosition   = $17
+FilePosition    = $16
+NewGamePosition = $15
+
+.proc DoFileSelect
+	A8
+	stz FilePosition
+	stz NewGamePosition
+	jsr InitializeMenuGraphics
+
+	jsr DrawFileSelect
+
+@InputLoop:
+	jsr PlaceHandOnFileSelect
+	wai
+	bra @InputLoop
+
+	rts
+.endproc
+
+.proc DrawFileSelect
+	php
+	XY16
+
+	CALL DrawWindow,  1, 1, 15, 3
+	CALL DrawWindow, 16, 1, 30, 3
+	CALL DrawText, NewGameString, 2, 2, 0
+	CALL DrawText, ContinueString, 17, 2, 0
+
+	CALL DrawWindow, 1,  4, 30, 9
+	CALL DrawWindow, 1, 10, 30, 15
+	CALL DrawWindow, 1, 16, 30, 21
+
+	CALL DrawWindow,  1, 22, 15, 24
+	CALL DrawWindow, 16, 22, 30, 24
+	CALL DrawText, CopyString, 2, 23, 0
+	CALL DrawText, EraseString, 17, 23, 0
+
+	CALL DrawText, VersionString, 5, 26, 1
+
+	plp
+	rts
+.endproc
+
+.proc PlaceHandOnFileSelect
+	rts
+.endproc
 
 .proc DoCharacterSelect
+	jsr DrawCharacterSelectScreen
+
 	AXY8
 	stz ClassPosition
 	stz PartyPosition
@@ -212,8 +272,6 @@ InputPosition   = $17
 	sta ClassSelections, X
 	dex
 	bpl @ClassSelectionLoop
-
-	jsr InitializeCharacterSelect
 
 	A16
 @InputLoop:
@@ -275,7 +333,7 @@ InputPosition   = $17
 	rts
 .endproc
 
-.proc InitializeCharacterSelect
+.proc InitializeMenuGraphics
 ; Dungeon Map VRAM mapping
 ; 16 KB BG1 CHR       0x0000 word address
 ; 8 KB BG2 CHR        0x2000 word address
@@ -330,7 +388,7 @@ InputPosition   = $17
 	lda FontPalette, X        ; get a byte of palette data
 	sta CGDATA                ; write it to CGRAM
 	inx
-	cpx #$0008                ; length of palette data
+	cpx #$0010                ; length of palette data
 	bne @FontPaletteLoop
 
 	; Load the sprites.
@@ -357,11 +415,6 @@ InputPosition   = $17
 	cpx #$0020                ; just one hand palette
 	bne @HandPaletteLoop
 
-	jsr DrawCharacterSelectScreen
-	jsr PlaceHandOnCharacterSelectScreen
-	jsr CopyBG3TileMapBufferToVRAM
-	jsr CopyOamMirrorToOAM
-
 	lda #$0f
 	sta INIDISP             ; release forced blanking, set screen to full brightness
 	lda #$81
@@ -379,8 +432,8 @@ InputPosition   = $17
 	CALL DrawWindow,  1,  8, 13, 24
 	CALL DrawWindow, 15,  8, 30, 24
 
-	CALL DrawText, PartySelectString, 8, 1
-	CALL DrawText, StatusString, 19, 8
+	CALL DrawText, PartySelectString, 8, 1, 0
+	CALL DrawText, StatusString, 19, 8, 0
 
 	; Put character sprites in the party select window.
 	ldy #$0000
@@ -533,7 +586,9 @@ InputPosition   = $17
 	asl                   ; p*4
 	adc #$000b            ; p*4 + 11
 	pha
+	pea $0000
 	jsr DrawFixedText
+	pla
 	pla
 	pla
 	pla
@@ -557,7 +612,9 @@ InputPosition   = $17
 	asl
 	adc #$0009            ; p*4 + 9
 	pha
+	pea $0000
 	jsr DrawFixedText
+	pla
 	pla
 	pla
 	pla
@@ -764,7 +821,7 @@ InputPosition   = $17
 	asl
 	adc #CharacterNames
 	pha
-	CALL DrawFixedText, 8, 13, 3 ; omit the first parameter because we already pushed it
+	CALL DrawFixedText, 8, 13, 3, 0 ; omit the first parameter because we already pushed it
 	pla
 
 	plp
@@ -777,14 +834,14 @@ InputPosition   = $17
 
 	CALL DrawWindow, 9, 2, 21, 6
 	CALL DrawWindow, 1, 8, 29, 22
-	CALL DrawText, NameEntryString, 9, 8
+	CALL DrawText, NameEntryString, 9, 8, 0
 
-	CALL DrawText, AMString, 3, 10
-	CALL DrawText, NZString, 3, 12
-	CALL DrawText, amString, 3, 14
-	CALL DrawText, nzString, 3, 16
-	CALL DrawText, NumString, 3, 18
-	CALL DrawText, SymString, 3, 20
+	CALL DrawText, AMString, 3, 10, 0
+	CALL DrawText, NZString, 3, 12, 0
+	CALL DrawText, amString, 3, 14, 0
+	CALL DrawText, nzString, 3, 16, 0
+	CALL DrawText, NumString, 3, 18, 0
+	CALL DrawText, SymString, 3, 20, 0
 
 	lda PartyPosition
 	and #$00ff
@@ -796,7 +853,7 @@ InputPosition   = $17
 	asl
 	adc #ClassNameStrings  ; index into this array of length-8 strings by class
 	pha
-	CALL DrawFixedText, 8, 13, 5
+	CALL DrawFixedText, 8, 13, 5, 0
 	pla
 
 	; Move sprites 1-20 off the screen.
@@ -1076,14 +1133,20 @@ ClassStats:
 .endproc
 
 .proc DrawText
-	pText  = $09
-	xCoord = $07
-	yCoord = $05
+	pText  = $0B
+	xCoord = $09
+	yCoord = $07
+	palette = $05
 	phd
 	tsc
 	tcd
 	php
 	AXY16
+	lda palette
+	xba
+	asl
+	asl
+	sta palette             ; put the palette in the high byte, shifted over to bits 2-4
 
 	lda yCoord              ; formula is 2 * (y*32 + x), 2 bytes per tile, 32 tiles across
 	asl
@@ -1099,8 +1162,9 @@ ClassStats:
 	ldy #$0000
 @Loop:
 	lda (pText), Y          ; fetch a character
-	and #$00ff              ; we just want one byte of text at a time
+	and #$00ff              ; we just want one byte for the text
 	beq @Done               ; null-terminated string
+	ora palette             ; and another for the palette
 	sta BG3TileMapBuffer, X ; we have to store two bytes for the tile
 	iny                     ; next character
 	inx                     ; and next tile location
@@ -1114,15 +1178,21 @@ ClassStats:
 .endproc
 
 .proc DrawFixedText
-	pText  = $0B
-	Length = $09
-	xCoord = $07
-	yCoord = $05
+	pText  = $0D
+	Length = $0B
+	xCoord = $09
+	yCoord = $07
+	palette = $05
 	phd
 	tsc
 	tcd
 	php
 	AXY16
+	lda palette
+	xba
+	asl
+	asl
+	sta palette             ; put the palette in the high byte, shifted over to bits 2-4
 
 	lda yCoord              ; formula is 2 * (y*32 + x), 2 bytes per tile, 32 tiles across
 	asl
@@ -1139,6 +1209,7 @@ ClassStats:
 @Loop:
 	lda (pText), Y          ; fetch a character
 	and #$00ff              ; we just want one byte of text at a time
+	ora palette
 	sta BG3TileMapBuffer, X ; we have to store two bytes for the tile
 	iny                     ; next character
 	inx                     ; and next tile location
