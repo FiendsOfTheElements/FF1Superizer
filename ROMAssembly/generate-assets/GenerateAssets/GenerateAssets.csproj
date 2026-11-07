@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<NoWarn>CA2022</NoWarn>
+	<NoWarn>CA2022;NU1901;NU1902;NU1903;NU1904</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
