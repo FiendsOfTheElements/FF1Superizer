@@ -1,3 +1,29 @@
+# Secrets
+.env
+
 # Godot 4+ specific ignores
 .godot/
-/android/
+
+# Godot builds
+exports/
+
+# AI tools
+.cursor/
+.claude/settings.local.json
+.claude/sessions/
+.claude/todos/
+.claude/scheduled_tasks.*
+.claude/cache/
+.claude/telemetry/
+.claude/downloads/
+
+# Python nonsense
+__pycache__/
+
+# ObsidianMD
+docs/.obsidian/workspace.json
+docs/.obsidian/app.json
+
+# Other
+uncommitted/
+
