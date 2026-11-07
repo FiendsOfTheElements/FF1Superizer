@@ -1,0 +1,79 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(E:/source/FF1Superizer/Editor/**)",
+      "Edit(E:/source/FF1Superizer/Editor/**)",
+      "Write(E:/source/FF1Superizer/Editor/**)",
+      "Bash(cd E:/source/FF1Superizer/Editor*)",
+      "Bash(cd \"E:/source/FF1Superizer/Editor*)",
+      "Bash(cd /e/source/FF1Superizer/Editor/*)",
+
+      "Read(P:/ddm/FF1Superizer/Editor/**)",
+      "Edit(P:/ddm/FF1Superizer/Editor/**)",
+      "Write(P:/ddm/FF1Superizer/Editor/**)",
+      "Bash(cd P:/ddm/FF1Superizer/Editor*)",
+      "Bash(cd \"P:/ddm/FF1Superizer/Editor*)",
+      "Bash(cd /p/ddm/FF1Superizer/Editor/*)",
+
+      "Bash(git log *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git add *)",
+      "Bash(git worktree *)",
+      "WebFetch",
+      "WebSearch",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(git branch *)",
+      "Bash(git show *)",
+      "Bash(git remote *)",
+      "Bash(git merge --ff-only *)",
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit",
+      "Write",
+      "WebFetch",
+      "WebSearch",
+      "Skill(update-config)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(test:*)",
+      "Bash(echo *)",
+      "Bash(wc:*)",
+      "Bash(sort:*)",
+      "Bash(tree:*)",
+      "Bash(python3 *)",
+      "Bash(ls .agents)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(./.env.*)",
+      "Read(**/.env)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(**/*secret*)",
+      "Read(**/*credentials*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(git clean -fdx:*)",
+      "Bash(rm -rf:*)",
+      "Bash(rm -fr:*)",
+      "Bash(rm -f -r:*)",
+      "Bash(rm -r -f:*)",
+      "Bash(rm -r:*)",
+      "Bash(npm publish:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(docker:*)"
+    ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
+  }
+}
