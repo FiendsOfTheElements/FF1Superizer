@@ -1,11 +1,8 @@
-# ff1snes
+# Final Fantasy Superizer
 
-A port of Final Fantasy to the SNES.  Written from the ground up: No code was copied from the original NES game, though the disassembly was certainly used as a reference.
+A port of Final Fantasy Randomizer to the SNES.  All SNES code is written from the ground up: No asm code was copied from the original NES game, though the disassembly was certainly used as a reference.
 
-## Building
-To build the ROM, you'll need cc65 and make.  You'll also need an FF1 ROM, which you can place in the root directory and name `ff1.nes`.
-You will also need .NET 10 to extract data from the source ROM.  The necessary data will be automatically extracted and compiled into the SNES ROM.
-
-Just run `make` from the command line.
-
-**Note:** We want the Makefile to eventually run the ff1ripper scripts as .cs files straight from the command line, this will require .NET 10.
+## Project Structure
+* **ROMAssembly** contains all the assembly code needed to build the SNES ROM.
+* **Editor** contains an editor that can produce maps, data files for items and enemies, graphics packs, etc. that can be assembled into the ROM.
+* **Randomizer** contains the actual randomizer application.  This will shuffle up the data files, set environment variables for the assembler, and create an initial state for the ROM so that it runs the correct code path for the randomizer options.
