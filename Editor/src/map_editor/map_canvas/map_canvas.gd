@@ -23,7 +23,8 @@ const VIEW_ACTIONS: Array[StringName] = [&"map_view_normal", &"map_view_land", &
 
 const P_CANVAS_SIZE := &"canvas_size"
 const P_CENTER := &"center"
-const P_ZOOM := &"zoom"
+const P_GAME_SCALE := &"game_scale"
+const P_ALTITUDE := &"altitude"
 const P_PERSPECTIVE_TERMS := &"perspective_terms"
 const P_GAME_HALF_HEIGHT := &"game_half_height"
 const P_MAX_SCALE := &"max_scale"
@@ -194,10 +195,12 @@ func _on_overlay_draw() -> void:
 
 
 func _draw_game_frame() -> void:
-	var frame_size := MapView.GAME_SCREEN * _view.zoom
-	var frame := Rect2((size - frame_size) / 2.0, frame_size)
-	_overlay.draw_rect(frame.grow(1.0), FRAME_SHADOW_COLOR, false, 1.0)
-	_overlay.draw_rect(frame, FRAME_COLOR, false, 1.0)
+	var outline := PackedVector2Array()
+	for world in _view.footprint():
+		outline.append(_view.world_to_screen(world))
+	outline.append(outline[0])
+	_overlay.draw_polyline(outline, FRAME_SHADOW_COLOR, 3.0)
+	_overlay.draw_polyline(outline, FRAME_COLOR, 1.0)
 
 
 func _draw_labels() -> void:
@@ -257,7 +260,8 @@ func _view_moved() -> void:
 	_view.clamp_center()
 	_shader.set_shader_parameter(P_CANVAS_SIZE, size)
 	_shader.set_shader_parameter(P_CENTER, _view.center)
-	_shader.set_shader_parameter(P_ZOOM, _view.zoom)
+	_shader.set_shader_parameter(P_GAME_SCALE, _view.game_scale())
+	_shader.set_shader_parameter(P_ALTITUDE, _view.altitude())
 	_shader.set_shader_parameter(P_PERSPECTIVE_TERMS, MapView.perspective_terms(_view.perspective))
 	_shader.set_shader_parameter(P_WRAP_MAP, _view.wrap)
 	_overlay.queue_redraw()

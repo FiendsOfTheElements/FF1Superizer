@@ -112,7 +112,7 @@ func test_flat_screen_to_world_inverts_world_to_screen() -> void:
 
 func test_horizon_lies_above_game_frame() -> void:
 	var view := _make_projected(MapView.ViewMode.AIRSHIP)
-	var frame_top := VIEW_SIZE / 2.0 - Vector2(0.0, GAME_HALF.y * view.zoom)
+	var frame_top := VIEW_SIZE / 2.0 - Vector2(0.0, GAME_HALF.y * view.game_scale())
 	assert_false(view.is_beyond_horizon(frame_top))
 	view.view_size = Vector2(VIEW_SIZE.x, 4000.0)
 	assert_true(view.is_beyond_horizon(Vector2(VIEW_SIZE.x / 2.0, 0.0)))
@@ -132,6 +132,34 @@ func test_airship_footprint_is_wider_at_top() -> void:
 	var bottom_width := footprint[2].x - footprint[3].x
 	assert_gt(top_width, bottom_width)
 	assert_gt(bottom_width, MapView.GAME_SCREEN.x)
+
+
+func test_airship_screen_to_world_inverts_world_to_screen() -> void:
+	var view := _make_projected(MapView.ViewMode.AIRSHIP)
+	for zoom: float in [MapView.MIN_ZOOM, view.game_scale(), MapView.MAX_ZOOM]:
+		view.zoom = zoom
+		for corner in view.footprint():
+			assert_almost_eq(view.screen_to_world(view.world_to_screen(corner)), corner, Vector2.ONE * EPSILON)
+
+
+func test_airship_game_zoom_frames_game_screen() -> void:
+	var view := _make_projected(MapView.ViewMode.AIRSHIP)
+	view.zoom = view.game_scale()
+	var footprint := view.footprint()
+	var half_frame := GAME_HALF * view.game_scale()
+	assert_almost_eq(view.world_to_screen(footprint[0]), VIEW_SIZE / 2.0 - half_frame, Vector2.ONE * EPSILON)
+	assert_almost_eq(view.world_to_screen(footprint[2]), VIEW_SIZE / 2.0 + half_frame, Vector2.ONE * EPSILON)
+
+
+func test_airship_zoom_keeps_horizon_and_changes_altitude() -> void:
+	var view := _make_projected(MapView.ViewMode.AIRSHIP)
+	var screen := VIEW_SIZE / 2.0 - Vector2(0.0, GAME_HALF.y * view.game_scale())
+	view.zoom = view.game_scale()
+	var game := view.screen_to_game(screen)
+	var near := view.screen_to_world(screen) - view.center
+	view.zoom /= MapView.ZOOM_STEP
+	assert_eq(view.screen_to_game(screen), game)
+	assert_almost_eq(view.screen_to_world(screen) - view.center, near * MapView.ZOOM_STEP, Vector2.ONE * EPSILON)
 
 
 func test_clamp_center_wraps_when_projected() -> void:

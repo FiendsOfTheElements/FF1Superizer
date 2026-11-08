@@ -54,8 +54,16 @@ func row_scale(game_y: float) -> float:
 	return 1.0 / maxf(row_denominator(game_y), 1.0 / MAX_PERSPECTIVE_SCALE)
 
 
+func game_scale() -> float:
+	return fit_zoom(Rect2(Vector2.ZERO, GAME_SCREEN))
+
+
+func altitude() -> float:
+	return game_scale() / zoom
+
+
 func screen_to_game(screen: Vector2) -> Vector2:
-	return (screen - view_size / 2.0) / zoom
+	return (screen - view_size / 2.0) / game_scale()
 
 
 func is_beyond_horizon(screen: Vector2) -> bool:
@@ -63,12 +71,16 @@ func is_beyond_horizon(screen: Vector2) -> bool:
 
 
 func world_to_screen(world: Vector2) -> Vector2:
-	return (world - center) * zoom + view_size / 2.0
+	var projected := (world - center) / altitude()
+	var terms := perspective_terms(perspective)
+	var game_y := projected.y * terms.x / (1.0 - projected.y * terms.y / (GAME_SCREEN.y / 2.0))
+	var game := Vector2(projected.x * row_denominator(game_y), game_y)
+	return game * game_scale() + view_size / 2.0
 
 
 func screen_to_world(screen: Vector2) -> Vector2:
 	var game := screen_to_game(screen)
-	return center + game * row_scale(game.y)
+	return center + game * row_scale(game.y) * altitude()
 
 
 func visible_world_rect() -> Rect2:
