@@ -3,9 +3,11 @@
 [ext_resource type="PackedScene" path="res://src/map_editor/left_bar/map_picker.tscn" id="1_picker"]
 [ext_resource type="PackedScene" path="res://src/map_editor/left_bar/palette_panel.tscn" id="2_palette"]
 [ext_resource type="PackedScene" path="res://src/map_editor/left_bar/tile_properties_panel.tscn" id="3_props"]
+[ext_resource type="Script" path="res://src/map_editor/left_bar/left_bar.gd" id="4_script"]
 
 [node name="LeftBar" type="VBoxContainer"]
 custom_minimum_size = Vector2(280, 0)
+script = ExtResource("4_script")
 
 [node name="MapPicker" parent="." instance=ExtResource("1_picker")]
 unique_name_in_owner = true

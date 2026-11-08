@@ -19,3 +19,4 @@ func test_real_assets_load() -> void:
 	for pixel in tileset.chr:
 		max_pixel = maxi(max_pixel, pixel)
 	assert_lt(max_pixel, tileset.palette.size(), "every chr pixel indexes a palette color")
+	assert_eq(tileset.build_atlas().get_size(), OverworldTileset.ATLAS_SIZE)
