@@ -143,8 +143,3 @@ tests/unit/map_editor/test_map_view.gd  + projection tests
 3. Movie-maker captures: Normal, Land and Airship, the latter showing the outline, the
    horizon and the minimap trapezoid.
 4. The user checks the feel: the takeoff animation, panning in Airship, F1–F3.
-
-## TODO
-- The preview sizing may be wrong: the game-screen outline, the Airship scale and the minimap
-  footprint are all measured against the placeholder map. Re-check and redo them against the
-  game once real tiles render.
