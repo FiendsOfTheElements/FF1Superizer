@@ -68,13 +68,12 @@ func set_map_image(image: Image) -> void:
 func set_view_mode(mode: MapView.ViewMode) -> void:
 	if mode == _mode:
 		return
-	var projected_switch := _mode != MapView.ViewMode.NORMAL and mode != MapView.ViewMode.NORMAL
 	_mode = mode
 	if _mode_tween:
 		_mode_tween.kill()
 	_view.wrap = mode != MapView.ViewMode.NORMAL
 	var target := MapView.perspective_for(mode)
-	if projected_switch:
+	if _view.wrap and target != _view.perspective:
 		var duration := absf(target - _view.perspective) * MapView.TRANSITION_FRAMES / MapView.GAME_FPS
 		_mode_tween = create_tween()
 		_mode_tween.tween_method(_set_perspective, _view.perspective, target, duration)
