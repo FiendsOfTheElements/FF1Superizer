@@ -63,6 +63,13 @@ use_native_dialog = true
 unique_name_in_owner = true
 title = "Couldn't Open Project"
 
+[connection signal="view_changed" from="VBox/MainSplit/MapCanvas" to="VBox/MainSplit/RightBar" method="show_view"]
+[connection signal="view_changed" from="VBox/MainSplit/MapCanvas" to="." method="_on_view_changed"]
+[connection signal="cursor_tile_changed" from="VBox/MainSplit/MapCanvas" to="VBox/StatusBar" method="show_cursor_tile"]
+[connection signal="pan_requested" from="VBox/MainSplit/RightBar" to="VBox/MainSplit/MapCanvas" method="pan_to"]
+[connection signal="zoom_requested" from="VBox/MainSplit/RightBar" to="VBox/MainSplit/MapCanvas" method="zoom_step_at"]
+[connection signal="focus_canvas_requested" from="VBox/MainSplit/RightBar" to="VBox/MainSplit/MapCanvas" method="grab_focus"]
+[connection signal="view_mode_requested" from="VBox/TopToolbar" to="VBox/MainSplit/MapCanvas" method="set_view_mode"]
+[connection signal="view_mode_changed" from="VBox/MainSplit/MapCanvas" to="VBox/TopToolbar" method="show_view_mode"]
 [connection signal="open_requested" from="VBox/TopToolbar" to="." method="_on_open_requested"]
-[connection signal="cursor_moved" from="VBox/MainSplit/MapCanvas" to="." method="_on_map_cursor_moved"]
 [connection signal="dir_selected" from="OpenProjectDialog" to="." method="_on_project_dir_selected"]

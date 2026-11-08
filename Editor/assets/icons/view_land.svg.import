@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ro63nxrgbt24"
-path="res://.godot/imported/checker.svg-1d26d8590d0d35d3b469dbcacec3d793.ctex"
+uid="uid://cgluj3p4wm1a6"
+path="res://.godot/imported/view_land.svg-0494d83cd1eb33c4bd2ed9bf63a3cd80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/checker.svg"
-dest_files=["res://.godot/imported/checker.svg-1d26d8590d0d35d3b469dbcacec3d793.ctex"]
+source_file="res://assets/icons/view_land.svg"
+dest_files=["res://.godot/imported/view_land.svg-0494d83cd1eb33c4bd2ed9bf63a3cd80.ctex"]
 
 [params]
 

@@ -94,6 +94,24 @@ func test_index_zero_is_opaque_palette_color() -> void:
 	_assert_color(tileset.build_atlas().get_pixel(0, 0), tileset.palette[0])
 
 
+func test_render_map_places_atlas_tiles() -> void:
+	var tileset := _blank_tileset(OverworldTileset.TILE_COUNT)
+	for tile in OverworldTileset.TILE_COUNT:
+		tileset.tilemaps[tile] = tile
+		tileset.chr[tile * OverworldTileset.CHR_BYTES] = tile
+	var rows: Array[PackedByteArray] = []
+	for y in OverworldMap.SIZE:
+		rows.append(OverworldMapBuilder.full_row(y % OverworldMap.TILE_MASK))
+	var errors: Array[String] = []
+	var map := OverworldMap.decode(OverworldMapBuilder.encode(rows), errors)
+	var image := OverworldTileset.render_map(map, tileset.build_atlas())
+	assert_eq(image.get_size(), Vector2i.ONE * OverworldMap.SIZE * OverworldTileset.TILE_SIZE)
+	var last := OverworldMap.SIZE - 1
+	for cell in [Vector2i.ZERO, Vector2i(last, 0), Vector2i(0, last), Vector2i(last, last)]:
+		var pixel: Vector2i = cell * OverworldTileset.TILE_SIZE
+		_assert_color(image.get_pixelv(pixel), tileset.palette[map.get_tile(cell.x, cell.y)])
+
+
 func test_index_past_palette_is_missing_color() -> void:
 	var tileset := _blank_tileset(1)
 	tileset.chr[0] = tileset.palette.size()

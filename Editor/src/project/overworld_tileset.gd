@@ -8,11 +8,11 @@ const CORNER_COUNT := 4
 const TILEMAP_BYTES := TILE_COUNT * CORNER_COUNT
 const CHR_COUNT := 256
 const CHR_SIZE := 8
+const TILE_SIZE := CHR_SIZE * 2
 const CHR_BYTES := CHR_SIZE * CHR_SIZE
 const CHR_DATA_BYTES := CHR_COUNT * CHR_BYTES
 const PROPERTIES_BYTES := TILE_COUNT * TileProperties.WORD_BYTES
 const MAX_PALETTE_COLORS := 128
-const TILE_SIZE := CHR_SIZE * 2
 const ATLAS_COLUMNS := 16
 const ATLAS_ROWS := TILE_COUNT / ATLAS_COLUMNS
 const ATLAS_SIZE := Vector2i(ATLAS_COLUMNS, ATLAS_ROWS) * TILE_SIZE
@@ -60,6 +60,17 @@ func build_atlas() -> Image:
 			for y in CHR_SIZE:
 				for x in CHR_SIZE:
 					image.set_pixel(origin.x + x, origin.y + y, _color(chr_pixel(chr_id, x, y)))
+	return image
+
+
+static func render_map(map: OverworldMap, atlas: Image) -> Image:
+	var side := OverworldMap.SIZE * TILE_SIZE
+	var image := Image.create_empty(side, side, false, atlas.get_format())
+	var tile_rect := Rect2i(Vector2i.ZERO, Vector2i.ONE * TILE_SIZE)
+	for y in OverworldMap.SIZE:
+		for x in OverworldMap.SIZE:
+			tile_rect.position = atlas_origin(map.get_tile(x, y))
+			image.blit_rect(atlas, tile_rect, Vector2i(x, y) * TILE_SIZE)
 	return image
 
 
