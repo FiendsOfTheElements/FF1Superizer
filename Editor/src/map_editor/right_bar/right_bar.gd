@@ -12,8 +12,8 @@ func set_map_image(image: Image) -> void:
 	_minimap.set_map_image(image)
 
 
-func show_view(visible_world_rect: Rect2, _zoom: float) -> void:
-	_minimap.show_view(visible_world_rect)
+func show_view(footprint: PackedVector2Array, wraps: bool, _zoom: float) -> void:
+	_minimap.show_view(footprint, wraps)
 
 
 func _on_minimap_pan_requested(world: Vector2, duration: float) -> void:

@@ -13,8 +13,13 @@
 [ext_resource type="Texture2D" path="res://assets/icons/fill.svg" id="11_fill"]
 [ext_resource type="PackedScene" path="res://src/map_editor/top_toolbar/tool_options_bar.tscn" id="12_options"]
 [ext_resource type="Script" path="res://src/map_editor/top_toolbar/top_toolbar.gd" id="13_script"]
+[ext_resource type="Texture2D" path="res://assets/icons/view_normal.svg" id="14_view_normal"]
+[ext_resource type="Texture2D" path="res://assets/icons/view_land.svg" id="15_view_land"]
+[ext_resource type="Texture2D" path="res://assets/icons/view_airship.svg" id="16_view_airship"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tools"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_views"]
 
 [node name="TopToolbar" type="PanelContainer"]
 script = ExtResource("13_script")
@@ -125,4 +130,38 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="ViewSeparator" type="VSeparator" parent="HBox"]
+layout_mode = 2
+
+[node name="NormalViewButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Normal view (F1)"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_views")
+icon = ExtResource("14_view_normal")
+flat = true
+
+[node name="LandViewButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Land view (F2)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_views")
+icon = ExtResource("15_view_land")
+flat = true
+
+[node name="AirshipViewButton" type="Button" parent="HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Airship view (F3)"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_views")
+icon = ExtResource("16_view_airship")
+flat = true
+
 [connection signal="pressed" from="HBox/OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="HBox/NormalViewButton" to="." method="_on_normal_view_pressed"]
+[connection signal="pressed" from="HBox/LandViewButton" to="." method="_on_land_view_pressed"]
+[connection signal="pressed" from="HBox/AirshipViewButton" to="." method="_on_airship_view_pressed"]

@@ -2,6 +2,10 @@ extends GutTest
 
 const VIEW_SIZE := Vector2(1000, 600)
 const EPSILON := 0.001
+const ASM_SCALE_UNIT := 256.0
+const ASM_AIRSHIP_TOP := 768.0
+const ASM_AIRSHIP_BOTTOM := 385.0
+const GAME_HALF := MapView.GAME_SCREEN / 2.0
 
 
 func _make_view() -> MapView:
@@ -77,3 +81,61 @@ func test_tile_conversions_use_tile_size() -> void:
 	var world := MapView.tile_rect_to_world(Rect2i(tile, Vector2i.ONE))
 	assert_eq(world.size, Vector2.ONE * OverworldTileset.TILE_SIZE)
 	assert_eq(MapView.world_to_tile(world.get_center()), tile)
+
+
+func _make_projected(mode: MapView.ViewMode) -> MapView:
+	var view := _make_view()
+	view.wrap = true
+	view.perspective = MapView.perspective_for(mode)
+	return view
+
+
+func test_land_projection_is_flat() -> void:
+	assert_eq(MapView.perspective_terms(0.0), Vector2(1.0, 0.0))
+	var view := _make_projected(MapView.ViewMode.LAND)
+	for game_y: float in [-GAME_HALF.y, 0.0, GAME_HALF.y]:
+		assert_eq(view.row_scale(game_y), 1.0)
+
+
+func test_airship_scale_matches_rom_table() -> void:
+	var view := _make_projected(MapView.ViewMode.AIRSHIP)
+	var tolerance := 1.0 / ASM_SCALE_UNIT
+	assert_almost_eq(view.row_scale(-GAME_HALF.y), ASM_AIRSHIP_TOP / ASM_SCALE_UNIT, tolerance)
+	assert_almost_eq(view.row_scale(GAME_HALF.y - 1.0), ASM_AIRSHIP_BOTTOM / ASM_SCALE_UNIT, tolerance)
+
+
+func test_flat_screen_to_world_inverts_world_to_screen() -> void:
+	var view := _make_projected(MapView.ViewMode.LAND)
+	var world := view.center + Vector2(37.0, -81.5)
+	assert_almost_eq(view.screen_to_world(view.world_to_screen(world)), world, Vector2.ONE * EPSILON)
+
+
+func test_horizon_lies_above_game_frame() -> void:
+	var view := _make_projected(MapView.ViewMode.AIRSHIP)
+	var frame_top := VIEW_SIZE / 2.0 - Vector2(0.0, GAME_HALF.y * view.zoom)
+	assert_false(view.is_beyond_horizon(frame_top))
+	view.view_size = Vector2(VIEW_SIZE.x, 4000.0)
+	assert_true(view.is_beyond_horizon(Vector2(VIEW_SIZE.x / 2.0, 0.0)))
+	assert_eq(view.row_scale(-GAME_HALF.y * 10.0), MapView.MAX_PERSPECTIVE_SCALE)
+
+
+func test_land_footprint_is_game_screen() -> void:
+	var view := _make_projected(MapView.ViewMode.LAND)
+	var footprint := view.footprint()
+	assert_almost_eq(footprint[0], view.center - GAME_HALF, Vector2.ONE * EPSILON)
+	assert_almost_eq(footprint[2], view.center + GAME_HALF, Vector2.ONE * EPSILON)
+
+
+func test_airship_footprint_is_wider_at_top() -> void:
+	var footprint := _make_projected(MapView.ViewMode.AIRSHIP).footprint()
+	var top_width := footprint[1].x - footprint[0].x
+	var bottom_width := footprint[2].x - footprint[3].x
+	assert_gt(top_width, bottom_width)
+	assert_gt(bottom_width, MapView.GAME_SCREEN.x)
+
+
+func test_clamp_center_wraps_when_projected() -> void:
+	var view := _make_projected(MapView.ViewMode.LAND)
+	view.center = MapView.map_size() + Vector2(10.0, 20.0)
+	view.clamp_center()
+	assert_almost_eq(view.center, Vector2(10.0, 20.0), Vector2.ONE * EPSILON)

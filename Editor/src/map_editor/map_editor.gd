@@ -34,5 +34,5 @@ func _on_project_dir_selected(assets_dir: String) -> void:
 	_map_canvas.fit_map(0.0)
 
 
-func _on_view_changed(_visible_world_rect: Rect2, zoom: float) -> void:
+func _on_view_changed(_footprint: PackedVector2Array, _wraps: bool, zoom: float) -> void:
 	_status_bar.show_zoom(zoom)

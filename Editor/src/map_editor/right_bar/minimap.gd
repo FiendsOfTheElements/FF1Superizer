@@ -11,7 +11,8 @@ const BOX_COLOR := Color.WHITE
 const BOX_SHADOW_COLOR := Color(0, 0, 0, 0.75)
 
 var _texture: ImageTexture
-var _view_rect := Rect2()
+var _footprint := PackedVector2Array()
+var _wraps := false
 var _press_position := Vector2.ZERO
 var _pressed := false
 var _dragging := false
@@ -42,8 +43,9 @@ func set_map_image(image: Image) -> void:
 	_body.queue_redraw()
 
 
-func show_view(visible_world_rect: Rect2) -> void:
-	_view_rect = visible_world_rect
+func show_view(footprint: PackedVector2Array, wraps: bool) -> void:
+	_footprint = footprint
+	_wraps = wraps
 	_body.queue_redraw()
 
 
@@ -87,7 +89,21 @@ func _on_body_draw() -> void:
 		return
 	var thumb := thumb_rect(_body.size)
 	_body.draw_texture_rect(_texture, thumb, false)
-	var top_left := world_to_minimap(_view_rect.position, _body.size)
-	var box := Rect2(top_left, world_to_minimap(_view_rect.end, _body.size) - top_left).intersection(Rect2(Vector2.ZERO, _body.size).grow(-1.0))
-	_body.draw_rect(box.grow(1.0), BOX_SHADOW_COLOR, false, 1.0)
-	_body.draw_rect(box, BOX_COLOR, false, 1.0)
+	if _footprint.is_empty():
+		return
+	var bounds := Rect2(Vector2.ZERO, _body.size).grow(-1.0)
+	var outline := PackedVector2Array()
+	for world in _footprint:
+		var point := world_to_minimap(world, _body.size)
+		outline.append(point if _wraps else point.clamp(bounds.position, bounds.end))
+	outline.append(outline[0])
+	var offsets: Array[Vector2] = [Vector2.ZERO]
+	if _wraps:
+		offsets = []
+		for y in range(-1, 2):
+			for x in range(-1, 2):
+				offsets.append(Vector2(x, y) * thumb.size)
+	for offset in offsets:
+		var shifted := Transform2D(0.0, offset) * outline
+		_body.draw_polyline(shifted, BOX_SHADOW_COLOR, 3.0)
+		_body.draw_polyline(shifted, BOX_COLOR, 1.0)

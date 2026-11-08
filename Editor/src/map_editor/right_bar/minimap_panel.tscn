@@ -12,6 +12,7 @@ script = ExtResource("2_minimap")
 text = "Minimap"
 
 [node name="Body" parent="VBox" index="1"]
+clip_contents = true
 custom_minimum_size = Vector2(256, 256)
 
 [connection signal="draw" from="VBox/Body" to="." method="_on_body_draw"]

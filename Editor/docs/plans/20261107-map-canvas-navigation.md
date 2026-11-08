@@ -50,7 +50,7 @@ tests/unit/map_editor/
 ## Units
 - **World px**: map pixels at 1× zoom. The map is `OverworldMap.SIZE * OverworldTileset.TILE_SIZE`
   = 4096 world px square.
-- **Zoom**: screen px per world px, range `1/16` to `16`, any value in between.
+- **Zoom**: screen px per world px, range `1/16` to `4`, any value in between.
 - **View**: `center` (world px, `Vector2`) + `zoom` + canvas `size`. Only the canvas's own rect
   counts toward the visible area, never the sidebars, toolbar or status bar.
 
@@ -58,7 +58,7 @@ tests/unit/map_editor/
 `RefCounted` holding `center: Vector2`, `zoom: float`, `view_size: Vector2`. Every formula lives
 here once; the canvas and minimap both go through it.
 
-- `const MIN_ZOOM := 1.0 / 16.0`, `MAX_ZOOM := 16.0`, `ZOOM_STEP := 1.25`, `GLIDE_DURATION := 0.15`
+- `const MIN_ZOOM := 1.0 / 16.0`, `MAX_ZOOM := 4.0`, `ZOOM_STEP := 1.25`, `GLIDE_DURATION := 0.15`
 - `map_size() -> Vector2` from `OverworldMap.SIZE * OverworldTileset.TILE_SIZE`
 - `world_to_screen(p)`, `screen_to_world(p)`
 - `visible_world_rect() -> Rect2`
